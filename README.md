@@ -4,7 +4,7 @@ Ce projet consiste à créer une API REST complète de A à Z, avec une gestion 
 
 ## Fonctionnalités
 
-L'API dispose des fonctionnalités suivantes pour les endpoints `users` et `orders` :
+L'API dispose des fonctionnalités suivantes pour les endpoints `users` , `orders` et `products`:
 
 - **GET** : Récupérer une liste de ressources ou une ressource spécifique.
 - **POST** : Créer une nouvelle ressource.
