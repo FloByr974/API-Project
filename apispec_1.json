@@ -1,0 +1,497 @@
+{
+  "definitions": {},
+  "info": {
+    "description": "powered by Flasgger",
+    "termsOfService": "/tos",
+    "title": "Exemple d\u2019API Flask avec JWT et JSON",
+    "version": "0.0.1"
+  },
+  "paths": {
+    "/login": {
+      "post": {
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "password": {
+                  "type": "string"
+                },
+                "username": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "username",
+                "password"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Succ\u00e8s, renvoie le token"
+          },
+          "401": {
+            "description": "\u00c9chec de l'authentification"
+          }
+        },
+        "summary": "Connexion et obtention d'un token d'authentification.",
+        "tags": [
+          "Authentification"
+        ]
+      }
+    },
+    "/orders": {
+      "get": {
+        "description": "- Un admin voit toutes les commandes.<br/>- Un utilisateur normal ne voit que ses propres commandes.<br/>",
+        "responses": {
+          "200": {
+            "description": "Liste des commandes"
+          }
+        },
+        "summary": "R\u00e9cup\u00e8re toutes les commandes :",
+        "tags": [
+          "Commandes"
+        ]
+      },
+      "post": {
+        "description": "- Seul un utilisateur authentifi\u00e9 peut cr\u00e9er une commande.<br/>- Seul un admin peut d\u00e9finir un statut diff\u00e9rent de \"pending\" \u00e0 la cr\u00e9ation.<br/>",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "price": {
+                  "description": "Prix unitaire ou total de la commande",
+                  "type": "number"
+                },
+                "product_name": {
+                  "type": "string"
+                },
+                "quantity": {
+                  "type": "integer"
+                },
+                "status": {
+                  "default": "pending",
+                  "enum": [
+                    "pending",
+                    "shipped",
+                    "delivered",
+                    "canceled"
+                  ],
+                  "type": "string"
+                }
+              },
+              "required": [
+                "product_name",
+                "quantity"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Commande cr\u00e9\u00e9e"
+          },
+          "400": {
+            "description": "Champs invalides"
+          }
+        },
+        "summary": "Cr\u00e9e une nouvelle commande.",
+        "tags": [
+          "Commandes"
+        ]
+      }
+    },
+    "/orders/{order_id}": {
+      "delete": {
+        "description": "- Seul un admin peut supprimer une commande.<br/>- Un utilisateur normal ne peut pas la supprimer, il doit la 'canceler' plut\u00f4t.<br/>",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "order_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Commande supprim\u00e9e"
+          },
+          "403": {
+            "description": "Acc\u00e8s refus\u00e9"
+          },
+          "404": {
+            "description": "Commande introuvable"
+          }
+        },
+        "summary": "Supprime une commande.",
+        "tags": [
+          "Commandes"
+        ]
+      },
+      "get": {
+        "description": "- Un admin peut voir n'importe quelle commande.<br/>- Un utilisateur normal ne peut voir que ses propres commandes.<br/>",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "order_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "D\u00e9tails de la commande"
+          },
+          "403": {
+            "description": "Acc\u00e8s refus\u00e9"
+          },
+          "404": {
+            "description": "Commande introuvable"
+          }
+        },
+        "summary": "R\u00e9cup\u00e8re une commande sp\u00e9cifique.",
+        "tags": [
+          "Commandes"
+        ]
+      },
+      "put": {
+        "description": "- Un admin peut mettre \u00e0 jour n'importe quelle commande (y compris son statut et son prix).<br/>- Un utilisateur normal ne peut mettre \u00e0 jour que ses propres commandes,<br/>  et ne peut mettre le statut qu'\u00e0 'canceled'. <br/>  Il ne peut pas modifier le prix.<br/>",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "order_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "price": {
+                  "type": "number"
+                },
+                "product_name": {
+                  "type": "string"
+                },
+                "quantity": {
+                  "type": "integer"
+                },
+                "status": {
+                  "enum": [
+                    "pending",
+                    "shipped",
+                    "delivered",
+                    "canceled"
+                  ],
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Commande mise \u00e0 jour"
+          },
+          "403": {
+            "description": "Acc\u00e8s refus\u00e9"
+          },
+          "404": {
+            "description": "Commande introuvable"
+          }
+        },
+        "summary": "Met \u00e0 jour une commande.",
+        "tags": [
+          "Commandes"
+        ]
+      }
+    },
+    "/products": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Liste de tous les produits"
+          }
+        },
+        "summary": "R\u00e9cup\u00e8re la liste de tous les produits.",
+        "tags": [
+          "Produits"
+        ]
+      },
+      "post": {
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "price": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "name",
+                "price"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Produit cr\u00e9\u00e9"
+          },
+          "400": {
+            "description": "Champs invalides"
+          }
+        },
+        "summary": "Cr\u00e9e un nouveau produit (r\u00e9serv\u00e9 \u00e0 l'admin).",
+        "tags": [
+          "Produits"
+        ]
+      }
+    },
+    "/products/{product_id}": {
+      "delete": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "product_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Produit supprim\u00e9"
+          },
+          "404": {
+            "description": "Produit introuvable"
+          }
+        },
+        "summary": "Supprime un produit (r\u00e9serv\u00e9 \u00e0 l'admin).",
+        "tags": [
+          "Produits"
+        ]
+      },
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "product_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "D\u00e9tails du produit"
+          },
+          "404": {
+            "description": "Produit introuvable"
+          }
+        },
+        "summary": "R\u00e9cup\u00e8re un produit pr\u00e9cis (accessible \u00e0 tous).",
+        "tags": [
+          "Produits"
+        ]
+      },
+      "put": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "product_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "price": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Produit mis \u00e0 jour"
+          },
+          "404": {
+            "description": "Produit introuvable"
+          }
+        },
+        "summary": "Met \u00e0 jour un produit (r\u00e9serv\u00e9 \u00e0 l'admin).",
+        "tags": [
+          "Produits"
+        ]
+      }
+    },
+    "/register": {
+      "post": {
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "password": {
+                  "type": "string"
+                },
+                "role": {
+                  "default": "user",
+                  "enum": [
+                    "admin",
+                    "user"
+                  ],
+                  "type": "string"
+                },
+                "username": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "username",
+                "password"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Utilisateur cr\u00e9\u00e9 avec succ\u00e8s"
+          },
+          "400": {
+            "description": "Erreur de cr\u00e9ation (utilisateur d\u00e9j\u00e0 existant ?)"
+          }
+        },
+        "summary": "Enregistrement d'un nouvel utilisateur.",
+        "tags": [
+          "Authentification"
+        ]
+      }
+    },
+    "/users": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Liste de tous les utilisateurs"
+          }
+        },
+        "summary": "R\u00e9cup\u00e8re tous les utilisateurs (r\u00e9serv\u00e9 \u00e0 l'admin).",
+        "tags": [
+          "Utilisateurs"
+        ]
+      }
+    },
+    "/users/{user_id}": {
+      "delete": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Utilisateur supprim\u00e9"
+          },
+          "404": {
+            "description": "Utilisateur introuvable"
+          }
+        },
+        "summary": "Supprime un utilisateur (r\u00e9serv\u00e9 \u00e0 l'admin).",
+        "tags": [
+          "Utilisateurs"
+        ]
+      },
+      "get": {
+        "description": "- Un admin peut r\u00e9cup\u00e9rer n'importe quel utilisateur.<br/>- Un utilisateur normal ne peut r\u00e9cup\u00e9rer que ses propres infos.<br/>",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Donn\u00e9es de l'utilisateur"
+          },
+          "403": {
+            "description": "Acc\u00e8s refus\u00e9"
+          },
+          "404": {
+            "description": "Utilisateur introuvable"
+          }
+        },
+        "summary": "R\u00e9cup\u00e8re les informations d'un utilisateur.",
+        "tags": [
+          "Utilisateurs"
+        ]
+      },
+      "put": {
+        "description": "- Un admin peut mettre \u00e0 jour n'importe quel utilisateur.<br/>- Un utilisateur normal ne peut mettre \u00e0 jour que ses propres infos.<br/>",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "properties": {
+                "password": {
+                  "type": "string"
+                },
+                "role": {
+                  "enum": [
+                    "admin",
+                    "user"
+                  ],
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Utilisateur mis \u00e0 jour"
+          },
+          "403": {
+            "description": "Acc\u00e8s refus\u00e9"
+          },
+          "404": {
+            "description": "Utilisateur introuvable"
+          }
+        },
+        "summary": "Met \u00e0 jour les informations d'un utilisateur.",
+        "tags": [
+          "Utilisateurs"
+        ]
+      }
+    }
+  },
+  "swagger": "2.0"
+}
