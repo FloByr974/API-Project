@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "name": "POMME",
+    "price": 5.0
+  },
+  {
+    "id": 2,
+    "name": "ORANGE",
+    "price": 3.0
+  },
+  {
+    "id": 3,
+    "name": "BANANE",
+    "price": 4.0
+  },
+  {
+    "id": 4,
+    "name": "CAROTTES",
+    "price": 6.0
+  },
+  {
+    "id": 5,
+    "name": "NOIX",
+    "price": 1.22
+  }
+]

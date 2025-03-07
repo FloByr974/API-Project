@@ -1,0 +1,18 @@
+[
+  {
+    "id": 2,
+    "product_name": "POMME",
+    "quantity": 10,
+    "price": 5.0,
+    "status": "delivered",
+    "user_id": 1
+  },
+  {
+    "id": 3,
+    "product_name": "CAROTTES",
+    "quantity": 10,
+    "price": 60.0,
+    "status": "canceled",
+    "user_id": 3
+  }
+]

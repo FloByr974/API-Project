@@ -1,0 +1,292 @@
+{
+	"info": {
+		"_postman_id": "cae0dc7c-2729-4f3b-837f-edc2968536b5",
+		"name": "API Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "33748482"
+	},
+	"item": [
+		{
+			"name": "Authentification",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"user\",\n    \"password\": \"pass\"\n}"
+						},
+						"url": "http://10.100.161.7:5000/login"
+					},
+					"response": []
+				},
+				{
+					"name": "Inscription",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"admin2\",\n    \"password\": \"admin2\",\n    \"role\": \"admin\"\n}"
+						},
+						"url": "http://10.100.161.7:5000/register"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Commandes",
+			"item": [
+				{
+					"name": "Liste des commandes",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_JWT_TOKEN"
+							}
+						],
+						"url": "http://10.100.161.7:5000/orders"
+					},
+					"response": []
+				},
+				{
+					"name": "Créer une commande",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_JWT_TOKEN"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"product_name\": \"Produit A\",\n    \"quantity\": 2,\n    \"status\": \"pending\"\n}"
+						},
+						"url": "http://10.100.161.7:5000/orders"
+					},
+					"response": []
+				},
+				{
+					"name": "Récupérer une commande",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_JWT_TOKEN"
+							}
+						],
+						"url": "http://10.100.161.7:5000/orders/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Modifier une commande",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_JWT_TOKEN"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"product_name\": \"Produit B\",\n    \"quantity\": 3,\n    \"status\": \"shipped\"\n}"
+						},
+						"url": "http://10.100.161.7:5000/orders/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Supprimer une commande",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_JWT_TOKEN"
+							}
+						],
+						"url": "http://10.100.161.7:5000/orders/1"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Utilisateurs",
+			"item": [
+				{
+					"name": "Liste des utilisateurs",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_JWT_TOKEN"
+							}
+						],
+						"url": "http://10.100.161.7:5000/users"
+					},
+					"response": []
+				},
+				{
+					"name": "Récupérer un utilisateur",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_JWT_TOKEN"
+							}
+						],
+						"url": "http://10.100.161.7:5000/users/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Modifier un utilisateur",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_JWT_TOKEN"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"password\": \"newpassword\",\n    \"role\": \"admin\"\n}"
+						},
+						"url": "http://10.100.161.7:5000/users/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Supprimer un utilisateur",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_JWT_TOKEN"
+							}
+						],
+						"url": "http://10.100.161.7:5000/users/1"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Produits",
+			"item": [
+				{
+					"name": "Liste des produits",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://10.100.161.7:5000/products"
+					},
+					"response": []
+				},
+				{
+					"name": "Créer un produit",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_JWT_TOKEN"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Produit A\",\n    \"price\": 10.99\n}"
+						},
+						"url": "http://10.100.161.7:5000/products"
+					},
+					"response": []
+				},
+				{
+					"name": "Récupérer un produit",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://10.100.161.7:5000/products/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Modifier un produit",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_JWT_TOKEN"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Produit B\",\n    \"price\": 12.99\n}"
+						},
+						"url": "http://10.100.161.7:5000/products/1"
+					},
+					"response": []
+				},
+				{
+					"name": "Supprimer un produit",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer YOUR_JWT_TOKEN"
+							}
+						],
+						"url": "http://10.100.161.7:5000/products/1"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
