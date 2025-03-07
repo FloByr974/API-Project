@@ -1,0 +1,94 @@
+<!-- templates/update_order.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Mise à jour d'une commande</title>
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+<div class="container py-4">
+  <h1 class="mb-4">Mise à jour de la commande #{{ order.id }}</h1>
+
+  <form action="{{ url_for('update_order', order_id=order.id) }}" method="POST" class="row g-3">
+    <div class="col-md-6">
+      <label class="form-label">Produit :</label>
+      <select name="product_id" class="form-select">
+        {% for product in products %}
+        <option value="{{ product.id }}"
+          {% if product.name == order.product_name or product.id == order.get("product_id") %}
+             selected
+          {% endif %}
+        >
+          {{ product.name }} (ID: {{ product.id }})
+        </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="col-md-6">
+      <label class="form-label">Quantité :</label>
+      <input type="number" name="quantity" class="form-control"
+             value="{{ order.quantity }}">
+    </div>
+
+    <!-- Seul l'admin peut réellement changer le price, 
+         mais on l'affiche quand même. L'API ignorera pour un user. -->
+    {% if role == "admin" %}
+    <div class="col-md-6">
+      <label class="form-label">Prix :</label>
+      <input type="text" name="price" class="form-control"
+             value="{{ order.price }}">
+    </div>
+    <div class="col-md-6">
+      <label class="form-label">Statut :</label>
+      <select name="status" class="form-select">
+        <option value="pending"    {% if order.status == 'pending' %}selected{% endif %}>pending</option>
+        <option value="shipped"    {% if order.status == 'shipped' %}selected{% endif %}>shipped</option>
+        <option value="delivered"  {% if order.status == 'delivered' %}selected{% endif %}>delivered</option>
+        <option value="canceled"   {% if order.status == 'canceled' %}selected{% endif %}>canceled</option>
+      </select>
+    </div>
+    {% else %}
+    <!-- Si user normal, on n'affiche pas forcément le price ni le status -->
+    {% endif %}
+
+    <div class="col-12 text-end">
+      <button type="submit" class="btn btn-primary">Enregistrer</button>
+      <a href="{{ url_for('orders') }}" class="btn btn-secondary">Annuler</a>
+    </div>
+  </form>
+</div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">Accueil</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarNav" aria-controls="navbarNav"
+            aria-expanded="false" aria-label="Basculer la navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('orders') }}">Commandes</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('products') }}">Produits</a>
+        </li>
+        {% if role == "admin" %}
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('admin_panel') }}">Administration</a>
+        </li>
+        {% endif %}
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('logout') }}">Déconnexion</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

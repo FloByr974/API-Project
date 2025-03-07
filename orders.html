@@ -1,0 +1,99 @@
+<!-- templates/orders.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Liste des commandes</title>
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+<div class="container py-4">
+  <h1 class="mb-4">Vos commandes</h1>
+  
+  <div class="table-responsive mb-5">
+    <table class="table table-bordered table-striped align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>Produit</th>
+          <th>Quantité</th>
+          <th>Prix</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for o in orders %}
+        <tr>
+          <td>{{ o.id }}</td>
+          <td>{{ o.product_name }}</td>
+          <td>{{ o.quantity }}</td>
+          <td>{{ o.price }}</td>
+          <td>{{ o.status }}</td>
+          <td>
+            <a href="{{ url_for('update_order', order_id=o.id) }}" class="btn btn-sm btn-warning">Modifier</a>
+            {% if role == "admin" %}
+              <a href="{{ url_for('delete_order', order_id=o.id) }}" 
+                 class="btn btn-sm btn-danger"
+                 onclick="return confirm('Voulez-vous vraiment supprimer cette commande ?');">
+                Supprimer
+              </a>
+            {% else %}
+              {% if o.status != "canceled" %}
+                <form action="{{ url_for('cancel_order', order_id=o.id) }}" method="POST" style="display:inline;">
+                  <button type="submit" class="btn btn-sm btn-outline-secondary"
+                          onclick="return confirm('Voulez-vous annuler cette commande ?');">
+                    Annuler
+                  </button>
+                </form>
+              {% endif %}
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Bouton pour aller vers la page de création -->
+  <p>
+    <a href="{{ url_for('create_order') }}" class="btn btn-primary">
+      Créer une nouvelle commande
+    </a>
+  </p>
+
+  <p><a href="{{ url_for('logout') }}" class="btn btn-secondary">Se déconnecter</a></p>
+</div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">Accueil</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarNav" aria-controls="navbarNav"
+            aria-expanded="false" aria-label="Basculer la navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('orders') }}">Commandes</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('products') }}">Produits</a>
+        </li>
+        {% if role == "admin" %}
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('admin_panel') }}">Administration</a>
+        </li>
+        {% endif %}
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('logout') }}">Déconnexion</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
