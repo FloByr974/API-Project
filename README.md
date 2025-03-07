@@ -1,6 +1,6 @@
 # API de gestion des utilisateurs et des commandes
 
-Ce projet consiste à créer une API REST complète de A à Z, avec une gestion des utilisateurs et des commandes. L'API permet de gérer différentes actions (GET, POST, PUT, DELETE, PATCH) sur des ressources `users`, `orders` et `products`. De plus, l'API inclut un mécanisme de génération de tokens d'authentification et sera hébergée sur notre infrastructure.
+Ce projet vise à développer une API REST complète permettant la gestion des utilisateurs, des commandes et des produits. L'API prend en charge les actions essentielles (GET, POST, PUT, DELETE, PATCH) sur ces ressources. Elle intègre également un système de génération de tokens d'authentification et sera déployée sur notre infrastructure.
 
 ## Fonctionnalités
 
